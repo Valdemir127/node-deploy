@@ -1,0 +1,73 @@
+Docker:
+    Instalado Docker desktop para criar container do banco de dados
+    Pesquisada uma imagem de Postgresql e realizado pull dela
+    Ao executar essa imagem foi criado o Container do Postgresql, com os argumentos:
+        "POSTGRES_PASSWORD=dbpassword"
+		"POSTGRES_USER=dbuser"
+        hostPort: 5441
+    O Docket criou e executou o novo container com o banco em funcionamento.
+    TODO: veririficar como funciona a persistencia de dados com o Docker e Postgresql
+
+.env: environment variables
+.gitignore: list of files out of version control
+
+server.ts:
+    api crud de integração com o banco
+
+Passo a Passo:
+    criar pasta e executar:
+        npm init -i -> cria o package.json dentro da pasta com os dados do projeto
+        "npm install -D typescript @types/node tsx tsup1":
+            -> "-D" add os pacotes como dependência de desenvolvimento
+            -> tsx: executa código typescript e jsx
+            -> tsup: fazer build, converte código typescript para js ou para versões anteriores do js
+        "npx tsc --init": inicializa configuração do typescript
+            ->  npx: A package can be executable without installing the package
+            tsconfig.json: alterar target para es2020
+        "npm i fastify" framework para criar rota
+        "npm i -D prisma" para acesso ao banco de dados
+        "npm i @prisma/client" operar banco de dados pelo node crud
+        "npx prisma init" criar a configuração do prisma
+    entrar no arquivo "schema.prisma":
+        criar tabela:
+        "model User{
+            id String @id @default(cuid())
+            name String
+            email String
+            password String
+            createdAt DateTime @default(now())
+        }"
+    configurar caminho do banco no arquivo .env
+    "npm prisma migrate dev" atualizar o banco de dados de acordo com o schema
+    o prisma questiona qual o nome da migration: é como um nome de commit para um versionamento de banco
+*   "npx prisma studio" para abrir o studio de acesso ao banco de dados
+    implementado o server.ts
+    "npm i zod" validação de dados integrada com typescript
+    editar o package.json, implementar:
+    "
+    "scripts": {
+        "dev": "tsx src/server.ts"
+    },
+    "
+*   "npm run dev" executa o projeto com o script dev do package.json
+    
+    editar o package.json, implementar:
+    "
+    "scripts": {
+        "dev": "tsx src/server.ts",
+        "build": "tsup src"
+    },
+    "
+*   "npm run build" compila o projeto typescript para javascript puro, gera uma pasta "dist"
+    
+    editar o package.json, implementar:
+    "
+    "scripts": {
+        "dev": "tsx src/server.ts",
+        "build": "tsup src",
+        "start": "node dist/server.js"
+    },
+    "
+    add pasta "dist" no ".gitignore"
+
+    
